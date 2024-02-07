@@ -1,9 +1,12 @@
 #!/bin/bash
 ver="0.1.0 Alpha"
 lastrun_file_loc="lastrun.txt"
+download_quality="very_high"
+skip_existing=1
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+BLUE='\033[4;34m'
 PURPLE='\033[4;35m'
 MENU='\033[0;4m'
 NC='\033[0m'
@@ -15,6 +18,10 @@ function draw_line {
 function update_last_run {
     curdate=$(date)
     echo -e "ZotZip last attempted a download on:\n$curdate" > $lastrun_file_loc
+    if [ $1 != "" ]
+        then
+        echo -e "\nThe last attempted URL was ${BLUE}'$@'${NC}" >> $lastrun_file_loc
+    fi    
     echo "Updated lastrun file."
 }
 
@@ -26,17 +33,17 @@ function display_last_run {
 }
 
 function search {
-    zotify --download-format mp3 --download-quality very_high --skip-existing 1 --skip-previously-downloaded 1 -s
+    zotify --download-format mp3 --download-quality $download_quality --skip-existing $skip_existing -s
     update_last_run
 }
 
 function url {
-    zotify --download-format mp3 --download-quality very_high --skip-existing 1 --skip-previously-downloaded 1 $1
-    update_last_run
+    zotify --download-format mp3 --download-quality $download_quality --skip-existing $skip_existing $1
+    update_last_run $1
 }
 
 function liked {
-    zotify --download-format mp3 --download-quality very_high --skip-existing 1 --skip-previously-downloaded 1 -l
+    zotify --download-format mp3 --download-quality $download_quality --skip-existing $skip_existing -l
     update_last_run
 }
 
