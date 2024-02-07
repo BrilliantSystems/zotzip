@@ -1,2 +1,2 @@
-ZotZip was last run on:
-Wed Feb  7 03:15:32 PM MST 2024
+ZotZip last attempted a download on:
+Wed Feb  7 04:04:49 PM MST 2024

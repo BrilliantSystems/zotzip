@@ -1,5 +1,6 @@
 #!/bin/bash
 ver="0.1.0 Alpha"
+lastrun_file_loc="lastrun.txt"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -13,7 +14,7 @@ function draw_line {
 
 function update_last_run {
     curdate=$(date)
-    echo -e "ZotZip last attempted a download on:\n$curdate" > "lastrun.txt"
+    echo -e "ZotZip last attempted a download on:\n$curdate" > $lastrun_file_loc
     echo "Updated lastrun file."
 }
 
@@ -21,7 +22,7 @@ function display_last_run {
     while IFS= read -r line
     do
         echo -e "${GREEN} $line ${NC}"
-    done < "/home/john/Music/Zotify Music/lastrun.txt"
+    done < $lastrun_file_loc
 }
 
 function search {
