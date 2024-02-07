@@ -1,18 +1,11 @@
 #!/bin/bash
-source "zotzip.config"
+source "zotzip.config" #establish config file variables
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[4;34m'
-PURPLE='\033[4;35m'
-MENU='\033[0;4m'
-NC='\033[0m'
-
-function draw_line {
+function draw_line { #draw horizontal line across screen
   printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 }
 
-function update_last_run {
+function update_last_run { #update the lastrun file with current datetime and URL if applicable
     curdate=$(date)
     echo -e "ZotZip last attempted a download on:\n$curdate" > $lastrun_file_loc
     if [ $1 != "" ]
@@ -22,31 +15,31 @@ function update_last_run {
     echo "Updated lastrun file."
 }
 
-function display_last_run {
+function display_last_run { #display the contents of the lastrun file
     while IFS= read -r line
     do
         echo -e "${GREEN} $line ${NC}"
     done < $lastrun_file_loc
 }
 
-function search {
-    zotify --download-format mp3 --download-quality $download_quality --skip-existing $skip_existing -s
+function search { #execute zotify with a search prompt
+    zotify --download-format $download_format --download-quality $download_quality --skip-existing $skip_existing -s
     update_last_run
 }
 
-function url {
-    zotify --download-format mp3 --download-quality $download_quality --skip-existing $skip_existing $1
+function url { #execute zotify to download url, entered at $1
+    zotify --download-format $download_format --download-quality $download_quality --skip-existing $skip_existing $@
     update_last_run $1
 }
 
 function liked {
-    zotify --download-format mp3 --download-quality $download_quality --skip-existing $skip_existing -l
+    zotify --download-format $download_format --download-quality $download_quality --skip-existing $skip_existing -l
     update_last_run
 }
 
 function main_menu {
     clear
-    echo -e "${GREEN}Zotify Zip${NC}"
+    echo -e "${GREEN}ZotZip${NC}"
     echo -e "${PURPLE}By VectorLog${NC}"
     echo -e $ver
     draw_line
@@ -68,7 +61,7 @@ function main_menu {
             menufinished=1
             url="runonce" #this allows the URL prompt to run at least once.
             while [[ $url != "" ]] ; do
-                read -p "URL [Empty line quits]: " url
+                read -p "URL [Empty line quits, seperate URLs with a space]: " url
                 if [[ $url != "" ]];
                     then
                     echo "Attempting to Download $url"
