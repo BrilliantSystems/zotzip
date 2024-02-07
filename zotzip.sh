@@ -1,8 +1,5 @@
 #!/bin/bash
-ver="0.1.0 Alpha"
-lastrun_file_loc="lastrun.txt"
-download_quality="very_high"
-skip_existing=1
+source "zotzip.config"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
